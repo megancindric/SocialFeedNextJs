@@ -1,6 +1,6 @@
 export default function Post({ post }) {
     return (<>
-        <p>{post.name}</p>
+        <h3>{post.name}</h3>
         <p>{post.text}</p></>
     )
 }

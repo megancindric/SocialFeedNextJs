@@ -2,13 +2,30 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Feed from './feed'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import PostForm from './postForm'
 
 export default function Home() {
-  const [allPosts, setAllPosts] = useState([
-    { "name": "Bob Belcher", "text": "I <3 Burgers" },
-    { "name": "Nicholas Cage", "text": "Lol whoops kidnapped the president ;D" },
-    { "name": "Bert Macklin", "text": "I'm from the FBI" }])
+  const [allPosts, setAllPosts] = useState([])
+
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const response = await fetch(`/api/posts`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      let posts = await response.json()
+      setAllPosts(posts)
+    }
+    fetchPosts()
+  }, [])
+  function addPost(newPost) {
+    setAllPosts([newPost, ...allPosts])
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -21,7 +38,7 @@ export default function Home() {
         <h1 className={styles.title}>
           Welcome to socialFeed!
         </h1>
-
+        <PostForm addPost={addPost} />
         <Feed allPosts={allPosts} />
 
         <div className={styles.grid}>
