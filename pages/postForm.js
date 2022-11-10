@@ -9,21 +9,23 @@ export default function PostForm({ addPost }) {
             "name": name,
             "text": text
         }
-        console.log(newPost)
-        //Converting data to JSON
-        const JSONpost = JSON.stringify(newPost)
-        //Request Options
-        const options = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSONpost,
-        }
+        await addPost(newPost)
 
-        let response = await fetch('api/posts', options)
-        let result = await response.json()
-        console.log(result)
+        // console.log(newPost)
+        // //Converting data to JSON
+        // const JSONpost = JSON.stringify(newPost)
+        // //Request Options
+        // const options = {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSONpost,
+        // }
+
+        // let response = await fetch('api/posts', options)
+        // let result = await response.json()
+        // console.log(result)
     }
     return <form onSubmit={handleSubmit}>
         <label htmlFor="name">Name</label>

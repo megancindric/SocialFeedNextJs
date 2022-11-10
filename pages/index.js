@@ -4,26 +4,28 @@ import styles from '../styles/Home.module.css'
 import Feed from './feed'
 import { useState, useEffect } from 'react'
 import PostForm from './postForm'
+import axios from 'axios'
 
 export default function Home() {
   const [allPosts, setAllPosts] = useState([])
 
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await fetch(`/api/posts`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-      let posts = await response.json()
-      setAllPosts(posts)
-    }
-    fetchPosts()
+    getAllPosts()
   }, [])
-  function addPost(newPost) {
-    setAllPosts([newPost, ...allPosts])
+
+  async function getAllPosts() {
+    const response = await axios.get(`/api/posts`)
+    console.log(response)
+  }
+  async function addPost(newPost) {
+    //setAllPosts([newPost, ...allPosts])
+    try {
+      const response = await axios.post(`/api/posts/addpost`, newPost)
+      console.log(response)
+    } catch (e) { console.log(e) }
+    //fetchPosts();
+
   }
 
   return (

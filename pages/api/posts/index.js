@@ -1,4 +1,7 @@
 // Supports GET and POST requests
+
+import executeQuery from "../../../lib/db";
+
 // For testing purposes, hard-coding data
 const posts = [
     { id: 1, name: 'Bob', text: 'I <3 Burgers' },
@@ -6,21 +9,14 @@ const posts = [
     { id: 3, name: 'Rod', text: 'I like to party' }
 ]
 
-export default (req, res) => {
-    // extracts req.method to determine type of HTTP request
-    const { method } = req;
-
-    switch (method) {
-        case 'GET':
-            res.status(200).json(posts);
-            break;
-        case 'POST':
-            const body = req.body
-            res.status(200).json({ data: `Username: ${body.name}, Post: ${body.text}` });
-            break;
-        default:
-            res.setHeader('Allow', ['GET', 'POST']);
-            res.status(405).end(`Method ${method} Not Allowed`)
-            break;
+export default async (req, res) => {
+    try {
+        console.log("GET request")
+        const result = await executeQuery({
+            query: 'SELECT * FROM post'
+        })
+        console.log("GET result ", result)
+    } catch (error) {
+        console.log({ error })
     }
 }
