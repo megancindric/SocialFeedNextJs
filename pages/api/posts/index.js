@@ -12,10 +12,11 @@ export default (req, res) => {
 
     switch (method) {
         case 'GET':
-            res.json(posts);
+            res.status(200).json(posts);
             break;
         case 'POST':
-            res.json({ method: 'POST', endpoint: 'Posts' });
+            const body = req.body
+            res.status(200).json({ data: `Username: ${body.name}, Post: ${body.text}` });
             break;
         default:
             res.setHeader('Allow', ['GET', 'POST']);
